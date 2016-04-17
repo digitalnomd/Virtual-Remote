@@ -20,4 +20,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="185dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Remote"
+        android:id="@+id/buttonSelectRemote"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/buttonAddRemote"
+        android:layout_alignStart="@+id/buttonAddRemote"
+        android:layout_marginTop="126dp" />
 </RelativeLayout>

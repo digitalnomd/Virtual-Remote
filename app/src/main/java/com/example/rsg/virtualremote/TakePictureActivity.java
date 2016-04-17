@@ -4,20 +4,21 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class TakePictureActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,6 +27,8 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
     private static final int CAMERA_REQUEST = 1888;
     private ImageView imageViewPhoto;
     private String pathToImage;
+    private EditText fileName;
+    private String starterText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +37,11 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         takePicture = (Button) findViewById(R.id.buttonTakePicture);
         takePicture.setOnClickListener(this);
+        fileName = (EditText) findViewById(R.id.editTextFileName);
+        starterText = fileName.getText().toString();
 
         imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
 
@@ -59,11 +56,9 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            //imageViewPhoto.setImageBitmap(photo);
-            saveToInternalStorage(photo);
 
-            Bitmap bmImg = BitmapFactory.decodeFile(pathToImage);
-            imageViewPhoto.setImageBitmap(bmImg);
+            saveToInternalStorage(photo);
+            imageViewPhoto.setImageBitmap(photo);
         }
     }
 
@@ -72,7 +67,15 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath=new File(directory,"window.jpg");
+        //File mypath=new File(directory,"default3.jpg");
+        String currentText = fileName.getText().toString();
+        if(starterText.equals(currentText)) {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
+            currentText = dateFormat.format(date);
+        }
+
+        File mypath= new File(directory, currentText);
         String TAG = "Debugging";
 
         FileOutputStream fos = null;
@@ -92,11 +95,12 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
         File[] appFiles = directory.listFiles();
         Log.d(TAG, "saveToInternalStorage: File array length " + Integer.toString(directory.listFiles().length));
         for(File f: appFiles) {
-            if(f.getName().equals("book.jpg")) {
+            if(f.getName().equals(currentText)) {
                 pathToImage = f.getAbsolutePath();
             }
             Log.d(TAG, "saveToInternalStorage: " + f.toString());
         }
+
         return directory.getAbsolutePath();
     }
 }
