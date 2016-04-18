@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -27,6 +27,8 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
     private static final int CAMERA_REQUEST = 1888;
     private ImageView imageViewPhoto;
     private String pathToImage;
+    private EditText fileName;
+    private String starterText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
 
         takePicture = (Button) findViewById(R.id.buttonTakePicture);
         takePicture.setOnClickListener(this);
+        fileName = (EditText) findViewById(R.id.editTextFileName);
+        starterText = fileName.getText().toString();
 
         imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
 
@@ -54,9 +58,7 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
             Bitmap photo = (Bitmap) data.getExtras().get("data");
 
             saveToInternalStorage(photo);
-
-            Bitmap bmImg = BitmapFactory.decodeFile(pathToImage);
-            imageViewPhoto.setImageBitmap(bmImg);
+            imageViewPhoto.setImageBitmap(photo);
         }
     }
 
@@ -66,9 +68,14 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
         //File mypath=new File(directory,"default3.jpg");
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        File mypath= new File(directory,dateFormat.format(date));
+        String currentText = fileName.getText().toString();
+        if(starterText.equals(currentText)) {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
+            currentText = dateFormat.format(date);
+        }
+
+        File mypath= new File(directory, currentText);
         String TAG = "Debugging";
 
         FileOutputStream fos = null;
@@ -88,11 +95,12 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
         File[] appFiles = directory.listFiles();
         Log.d(TAG, "saveToInternalStorage: File array length " + Integer.toString(directory.listFiles().length));
         for(File f: appFiles) {
-            if(f.getName().equals("book.jpg")) {
+            if(f.getName().equals(currentText)) {
                 pathToImage = f.getAbsolutePath();
             }
             Log.d(TAG, "saveToInternalStorage: " + f.toString());
         }
+
         return directory.getAbsolutePath();
     }
 }
