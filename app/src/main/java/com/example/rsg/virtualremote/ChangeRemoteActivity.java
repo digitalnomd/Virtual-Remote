@@ -34,7 +34,7 @@ public class ChangeRemoteActivity extends AppCompatActivity implements View.OnCl
         changeName = (Button) findViewById(R.id.buttonChangeName);
         deleteRemote.setOnClickListener(this);
         changeName.setOnClickListener(this);
-        
+
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
 
         directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
@@ -49,7 +49,7 @@ public class ChangeRemoteActivity extends AppCompatActivity implements View.OnCl
             case R.id.buttonDeleteRemote:
                 File todel = new File(directory+"/"+value);
                 todel.delete();
-                Intent intent = new Intent(this, EditRemoteActivity.class);
+                Intent intent = new Intent(this, EditRemote.class);
                 startActivity(intent);
 
             case R.id.buttonChangeName:
