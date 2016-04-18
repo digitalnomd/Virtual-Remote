@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rsg.virtualremote">
 
-    <uses-feature android:name="android.hardware.camera" android:required="false"></uses-feature>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +25,14 @@
         <activity
             android:name=".TakePictureActivity"
             android:label="@string/title_activity_take_picture"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SelectRemoteActivity"
+            android:label="@string/title_activity_select_remote"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RemoteViewActivity"
+            android:label="@string/title_activity_remote_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

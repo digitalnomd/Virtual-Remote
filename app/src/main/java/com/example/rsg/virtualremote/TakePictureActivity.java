@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,6 +16,9 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class TakePictureActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,14 +35,6 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         takePicture = (Button) findViewById(R.id.buttonTakePicture);
         takePicture.setOnClickListener(this);
@@ -59,7 +52,7 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            //imageViewPhoto.setImageBitmap(photo);
+
             saveToInternalStorage(photo);
 
             Bitmap bmImg = BitmapFactory.decodeFile(pathToImage);
@@ -72,7 +65,10 @@ public class TakePictureActivity extends AppCompatActivity implements View.OnCli
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath=new File(directory,"window.jpg");
+        //File mypath=new File(directory,"default3.jpg");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        File mypath= new File(directory,dateFormat.format(date));
         String TAG = "Debugging";
 
         FileOutputStream fos = null;
