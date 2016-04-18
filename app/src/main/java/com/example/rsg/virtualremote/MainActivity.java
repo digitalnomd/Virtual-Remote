@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button addRemote;
     private Button selectRemote;
+    private Button editRemote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +26,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         addRemote = (Button) findViewById(R.id.buttonAddRemote);
         selectRemote = (Button) findViewById(R.id.buttonSelectRemote);
+        editRemote = (Button) findViewById(R.id.buttonEditRemote);
 
         addRemote.setOnClickListener(this);
         selectRemote.setOnClickListener(this);
+        editRemote.setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonSelectRemote:
                 Intent selectRemoteIntent = new Intent(this, SelectRemoteActivity.class);
                 startActivity(selectRemoteIntent);
+                break;
+            case R.id.buttonEditRemote:
+                Intent editRemoteIntent = new Intent(this, EditRemoteActivity.class);
+                startActivity(editRemoteIntent);
                 break;
         }
     }
