@@ -34,7 +34,8 @@
             android:name=".RemoteViewActivity"
             android:label="@string/title_activity_remote_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EditRemote"></activity>
+        <activity android:name=".EditRemoteActivity" />
+        <activity android:name=".ChangeRemoteActivity"></activity>
     </application>
 
 </manifest>

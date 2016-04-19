@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(selectRemoteIntent);
                 break;
             case R.id.buttonEditRemote:
-                Intent editRemoteIntent = new Intent(this, EditRemote.class);
+                Intent editRemoteIntent = new Intent(this, EditRemoteActivity.class);
                 startActivity(editRemoteIntent);
                 break;
         }
